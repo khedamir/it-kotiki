@@ -8,7 +8,6 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'prettier',
-		'airbnb-base/legacy',
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
@@ -40,7 +39,6 @@ module.exports = {
 				ignoreComments: true },
 		],
 		'function-call-argument-newline': ['error', 'consistent'],
-		'function-paren-newline': ['error', 'consistent'],
 		'array-element-newline': ['error', 'consistent'],
 		camelcase: [
 			'error', { properties: 'never',

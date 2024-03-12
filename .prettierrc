@@ -5,5 +5,6 @@
   "bracketSameLine": true,
   "width": 50,
   "endOfLine": "crlf",
-  "useTabs": true
+  "useTabs": true,
+  "trailingComma": "all"
 }
