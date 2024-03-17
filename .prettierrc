@@ -3,8 +3,9 @@
   "semi": true,
   "arrowParens": "avoid",
   "bracketSameLine": true,
-  "width": 50,
-  "endOfLine": "crlf",
+  "printWidth": 120,
   "useTabs": true,
+  "tabWidth": 4,
+  "endOfLine": "crlf",
   "trailingComma": "all"
 }
