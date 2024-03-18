@@ -2,19 +2,19 @@ import { Route, Routes } from 'react-router';
 import { Layout } from '../Layout/Layout';
 import { Template } from '../Template/Template';
 import { NotFound } from '../NotFound/NotFound';
-import { EPath } from '../../models/models';
+import { EPATH } from '../../models/models';
 
 function App() {
 	return (
 		<Routes>
-			<Route path={EPath.main} element={<Layout />}>
+			<Route path={EPATH.MAIN} element={<Layout />}>
 				<Route index element={<Template />} />
-				<Route path={EPath.signIn} element={<Template />} />
-				<Route path={EPath.signUp} element={<Template />} />
-				<Route path={EPath.profile} element={<Template />} />
-				<Route path={EPath.about} element={<Template />} />
-				<Route path={EPath.leaderBoard} element={<Template />} />
-				<Route path={EPath.forum} element={<Template />} />
+				<Route path={EPATH.SIGN_IN} element={<Template />} />
+				<Route path={EPATH.SIGN_UP} element={<Template />} />
+				<Route path={EPATH.PROFILE} element={<Template />} />
+				<Route path={EPATH.ABOUT} element={<Template />} />
+				<Route path={EPATH.LEADER_BOARD} element={<Template />} />
+				<Route path={EPATH.FORUM} element={<Template />} />
 				<Route path="/*" element={<NotFound />} />
 			</Route>
 		</Routes>

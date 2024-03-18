@@ -1,9 +1,9 @@
-export enum EPath {
-	main = '/',
-	signIn = 'sign-in',
-	signUp = 'sign-up',
-	profile = 'profile',
-	about = 'about',
-	leaderBoard = 'leader-board',
-	forum = 'forum',
+export enum EPATH {
+	MAIN = '/',
+	SIGN_IN = 'sign-in',
+	SIGN_UP = 'sign-up',
+	PROFILE = 'profile',
+	ABOUT = 'about',
+	LEADER_BOARD = 'leader-board',
+	FORUM = 'forum',
 }
