@@ -1,5 +1,10 @@
 import { useEffect } from 'react';
-import './App.css';
+
+import { Button, ConfigProvider, Input } from 'antd';
+import { ANTD_CONFIG } from './constants/antd.config';
+import { Typography } from 'antd';
+
+const { Text, Link } = Typography;
 
 function App() {
 	useEffect(() => {
@@ -14,7 +19,16 @@ function App() {
 
 		fetchServerData();
 	}, []);
-	return <div className="App">Вот тут будет жить ваше приложение :)</div>;
+	return (
+		<ConfigProvider theme={ANTD_CONFIG}>
+			<div className="App">
+				<Text>Вот тут будет жить ваше приложение :)</Text>
+				<Button>Button Title</Button>
+				<Link> Link Example </Link>
+				<Input></Input>
+			</div>
+		</ConfigProvider>
+	);
 }
 
 export default App;

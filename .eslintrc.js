@@ -143,6 +143,25 @@ module.exports = {
 				],
 			},
 		],
+		'@typescript-eslint/naming-convention': [
+			'error',
+			{
+			  'selector': 'interface',
+			  'format': ['PascalCase'],
+			},
+			{
+			  'selector': 'typeLike',
+			  'format': ['PascalCase'],
+			},
+			{
+				'selector': 'enum',
+				'format': ['UPPER_CASE'],
+			},
+			{
+				'selector': 'enumMember',
+				'format': ['UPPER_CASE'],
+			},
+		],
 	},
 	overrides: [
 		{
