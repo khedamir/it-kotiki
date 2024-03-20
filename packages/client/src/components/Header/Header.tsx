@@ -1,5 +1,6 @@
 import { FC } from 'react';
+import { Layout } from 'antd';
 
 export const Header: FC = () => {
-	return <header>Здесь будут хедер</header>;
+	return <Layout.Header>Здесь будут хедер</Layout.Header>;
 };
