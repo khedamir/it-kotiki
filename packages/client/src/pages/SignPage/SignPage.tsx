@@ -1,4 +1,4 @@
-import { ConfigProvider, Flex, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { SIGN_PAGE_CONFIG } from './сonstants/SignPageConfig';
@@ -13,14 +13,12 @@ export const SignPage: FC<IProps> = ({ type }) => {
 	const CONFIG = SIGN_PAGE_CONFIG[type];
 
 	return (
-		<ConfigProvider>
-			<Flex vertical align="center" justify="center">
-				<Typography.Title level={1}>{CONFIG.title}</Typography.Title>
-				<Form type={type} />
-				<Link to={CONFIG.linkTo}>
-					<Typography.Link>{CONFIG.textLink}</Typography.Link>
-				</Link>
-			</Flex>
-		</ConfigProvider>
+		<Flex vertical align="center" justify="center">
+			<Typography.Title level={1}>{CONFIG.title}</Typography.Title>
+			<Form type={type} />
+			<Link to={CONFIG.linkTo}>
+				<Typography.Link>{CONFIG.textLink}</Typography.Link>
+			</Link>
+		</Flex>
 	);
 };
