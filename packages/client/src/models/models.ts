@@ -12,3 +12,7 @@ export const enum EPAGE_TYPE {
 	SIGNIN,
 	SIGNUP,
 }
+
+export const enum ENOTIFICATION_TYPE {
+	ERROR = 'error',
+}
