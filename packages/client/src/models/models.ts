@@ -8,6 +8,8 @@ export enum EPATH {
 	FORUM = '/forum',
 }
 
+export const PROTECTED_ROUTES: ReadonlyArray<EPATH> = [EPATH.MAIN, EPATH.PROFILE, EPATH.FORUM, EPATH.LEADER_BOARD];
+
 export const enum EPAGE_TYPE {
 	SIGNIN,
 	SIGNUP,
