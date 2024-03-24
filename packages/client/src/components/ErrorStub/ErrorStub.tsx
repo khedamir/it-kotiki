@@ -10,7 +10,7 @@ const { Text, Title } = Typography;
 
 const { Content } = ALayout;
 
-export const Stub: FC<{
+export const ErrorStub: FC<{
 	type: ESTUB_TYPE;
 }> = ({ type }) => {
 	const navigate = useNavigate();

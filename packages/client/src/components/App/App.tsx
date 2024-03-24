@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router';
 import { Layout } from '../Layout/Layout';
 import { Template } from '../Template/Template';
-import { Stub } from '../Stub/Stub';
 import { EPAGE_TYPE, EPATH } from '../../models/models';
 import { SignPage } from '../../pages/SignPage/SignPage';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { ProfilePage } from '../../pages/ProfilePage/ProfilePage';
-import { ESTUB_TYPE } from '../Stub/models/models';
+import { NotFoundPage } from '../../pages/ErrorPage/NotFoundPage';
+import { ServerErrorPage } from '../../pages/ErrorPage/ServerErrorPage';
 
 function App() {
 	return (
@@ -22,7 +22,8 @@ function App() {
 				<Route path={EPATH.SIGN_UP} element={<SignPage type={EPAGE_TYPE.SIGNUP} />} />
 				<Route path={EPATH.SIGN_IN} element={<SignPage type={EPAGE_TYPE.SIGNIN} />} />
 			</Route>
-			<Route path="/*" element={<Stub type={ESTUB_TYPE.INTERNAL_SERVICE_ERROR} />} />
+			<Route path={EPATH.SERVER_ERROR} element={<ServerErrorPage />} />
+			<Route path="/*" element={<NotFoundPage />} />
 		</Routes>
 	);
 }

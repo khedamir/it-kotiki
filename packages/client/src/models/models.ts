@@ -6,9 +6,8 @@ export enum EPATH {
 	ABOUT = '/about',
 	LEADER_BOARD = '/leader-board',
 	FORUM = '/forum',
+	SERVER_ERROR = '/error',
 }
-
-export const PROTECTED_ROUTES: ReadonlyArray<EPATH> = [EPATH.MAIN, EPATH.PROFILE, EPATH.FORUM, EPATH.LEADER_BOARD];
 
 export const enum EPAGE_TYPE {
 	SIGNIN,
