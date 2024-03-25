@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 export enum EFIELD_TYPE {
 	LOGIN = 'login',
 	OLD_PASSWORD = 'oldPassword',
+	NEW_PASSWORD = 'newPassword',
 	PASSWORD = 'password',
 	NAME = 'first_name',
 	SURNAME = 'second_name',
@@ -52,7 +53,7 @@ export interface IProfileFormBody {
 	email: string;
 	phone: string;
 	login: string;
-	password: string;
+	newPassword: string;
 	oldPassword: string;
 	upload: RcFile[];
 }

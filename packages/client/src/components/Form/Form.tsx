@@ -35,11 +35,13 @@ export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 									message,
 								},
 							]}>
-							{name === EFIELD_TYPE.PASSWORD || name === EFIELD_TYPE.OLD_PASSWORD ? (
-								<Input.Password prefix={prefix} placeholder={placeholder} />
-							) : (
-								<Input prefix={prefix} type={type} placeholder={placeholder} />
-							)}
+							{name === EFIELD_TYPE.PASSWORD ||
+							name === EFIELD_TYPE.OLD_PASSWORD ||
+							name === EFIELD_TYPE.NEW_PASSWORD ? (
+									<Input.Password prefix={prefix} placeholder={placeholder} />
+								) : (
+									<Input prefix={prefix} type={type} placeholder={placeholder} />
+								)}
 						</AForm.Item>
 					</Fragment>
 				);

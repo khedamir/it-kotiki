@@ -21,16 +21,16 @@ export const ProfileDataForm: FC<IProps> = ({ data }) => {
 	const { openNotification } = useOutletContext();
 
 	const changeData = (values: IProfileFormBody) => {
-		const { oldPassword, password, upload, ...rest } = values;
+		const { oldPassword, newPassword, upload, ...rest } = values;
 		return updateProfile({
 			profileData: {
 				...rest,
 			},
 			passwordData: {
 				oldPassword,
-				newPassword: password,
+				newPassword,
 			},
-			avatar: upload[0].originFileObj,
+			avatar: upload && upload[0].originFileObj,
 		})
 			.then(() => {
 				openNotification('success', 'Данные пользователя успешно обновлены');

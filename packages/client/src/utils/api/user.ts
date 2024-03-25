@@ -42,7 +42,7 @@ export interface IUpdateProfileProps {
 
 export const updateProfile = async ({ profileData, avatar, passwordData }: IUpdateProfileProps) => {
 	const profilePromise = profile(profileData);
-	const passwordPromise = profilePassword(passwordData);
+	const passwordPromise = passwordData.newPassword ? profilePassword(passwordData) : Promise.resolve();
 	const avatarPromise = avatar ? profileAvatar(avatar) : Promise.resolve();
 
 	return Promise.all([profilePromise, avatarPromise, passwordPromise])
