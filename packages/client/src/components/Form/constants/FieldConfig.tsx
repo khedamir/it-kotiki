@@ -56,4 +56,14 @@ export const FIELD_CONFIG: Record<EFIELD_TYPE, IFieldConfig> = {
 		message: 'Введите пароль',
 		prefix: <LockOutlined className="site-form-item-icon" />,
 	},
+	[EFIELD_TYPE.OLD_PASSWORD]: {
+		label: 'Old password',
+		name: EFIELD_TYPE.OLD_PASSWORD,
+		type: 'password',
+		required: true,
+		pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
+		placeholder: 'Старый пароль',
+		message: 'Введите старый пароль',
+		prefix: <LockOutlined className="site-form-item-icon" />,
+	},
 };

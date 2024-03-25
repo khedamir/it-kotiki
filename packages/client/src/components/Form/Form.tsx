@@ -4,13 +4,15 @@ import { EPAGE_TYPE } from '../../models/models';
 import { FORM_CONFIG } from './constants/FormConfig';
 import { FC, Fragment } from 'react';
 import { FIELD_CONFIG } from './constants/FieldConfig';
+import { UserDTO } from '../../pages/ProfilePage/models/models';
 
 interface IProps {
 	type: EPAGE_TYPE;
 	onSubmit: (body) => void;
+	formData?: UserDTO;
 }
 
-export const Form: FC<IProps> = ({ type, onSubmit }: IProps) => {
+export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 	const [form] = AForm.useForm();
 	const CONFIG = FORM_CONFIG[type];
 
@@ -19,7 +21,7 @@ export const Form: FC<IProps> = ({ type, onSubmit }: IProps) => {
 	};
 
 	return (
-		<AForm form={form} onFinish={handleSubmit}>
+		<AForm form={form} onFinish={handleSubmit} initialValues={formData}>
 			{CONFIG.fields.map(fieldType => {
 				const { name, required, message, placeholder, type, prefix = null } = FIELD_CONFIG[fieldType];
 				return (
@@ -32,7 +34,7 @@ export const Form: FC<IProps> = ({ type, onSubmit }: IProps) => {
 									message,
 								},
 							]}>
-							{name === EFIELD_TYPE.PASSWORD ? (
+							{name === EFIELD_TYPE.PASSWORD || name === EFIELD_TYPE.OLD_PASSWORD ? (
 								<Input.Password prefix={prefix} placeholder={placeholder} />
 							) : (
 								<Input prefix={prefix} type={type} placeholder={placeholder} />

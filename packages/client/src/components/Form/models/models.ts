@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 export enum EFIELD_TYPE {
 	LOGIN = 'login',
+	OLD_PASSWORD = 'oldPassword',
 	PASSWORD = 'password',
 	NAME = 'first_name',
 	SURNAME = 'second_name',
@@ -37,4 +38,19 @@ export interface ISignupFormBody {
 	phone: string;
 	login: string;
 	password: string;
+}
+
+export interface IPasswordFormBody {
+	oldPassword: string;
+	newPassword: string;
+}
+
+export interface IProfileFormBody {
+	first_name: string;
+	second_name: string;
+	email: string;
+	phone: string;
+	login: string;
+	password: string;
+	oldPassword: string;
 }

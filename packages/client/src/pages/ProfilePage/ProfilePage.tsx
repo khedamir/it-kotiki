@@ -2,33 +2,12 @@ import { Button, Flex, Typography } from 'antd';
 import { useNavigate, useOutletContext } from 'react-router';
 import styled from 'styled-components';
 import { DEEP_PURPLE, LIGHT_OCEAN } from '../../constants/color';
-import { logout } from '../../utils/api/auth';
+import { logout, me } from '../../utils/api/auth';
 import { ENOTIFICATION_TYPE, EPATH } from '../../models/models';
 import { ProfileDataView } from '../../components/ProfileDataView/ProfileDataView';
 import { ProfileDataForm } from '../../components/ProfileDataForm/ProfileDataForm';
-import { useState } from 'react';
-
-export type UserDTO = {
-	id: number;
-	login: string;
-	first_name: string;
-	second_name: string;
-	display_name: string;
-	avatar: string;
-	phone: string;
-	email: string;
-};
-
-const userData: UserDTO = {
-	id: 2,
-	login: 'Pavel',
-	first_name: 'Павел',
-	second_name: 'Дуров',
-	display_name: 'PavelDurov',
-	avatar: 'https://sotni.ru/wp-content/uploads/2023/08/avatarka-kot-1.webp',
-	phone: '+79999999090',
-	email: 'mail@gmail.com',
-};
+import { useEffect, useState } from 'react';
+import { UserDTO } from './models/models';
 
 const ProfilePageContent = styled(Flex)`
 	flex-direction: column;
@@ -93,8 +72,13 @@ const ProfilePageBottom = styled(Flex)`
 
 export const ProfilePage = () => {
 	const [activeBlock, setActiveBlock] = useState('preview');
+	const [userData, setUserData] = useState<UserDTO>();
 	const navigate = useNavigate();
 	const { openNotification } = useOutletContext();
+
+	useEffect(() => {
+		me().then(result => setUserData(result));
+	}, []);
 
 	const handleLogout = () => {
 		logout()
@@ -106,6 +90,10 @@ export const ProfilePage = () => {
 				openNotification(ENOTIFICATION_TYPE.ERROR, err.reason);
 			});
 	};
+
+	if (!userData) {
+		return <Typography>loading...</Typography>;
+	}
 
 	return (
 		<ProfilePageContent>
