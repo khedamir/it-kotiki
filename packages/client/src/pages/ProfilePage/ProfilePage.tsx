@@ -8,6 +8,7 @@ import { ProfileDataView } from '../../components/ProfileDataView/ProfileDataVie
 import { ProfileDataForm } from '../../components/ProfileDataForm/ProfileDataForm';
 import { useEffect, useState } from 'react';
 import { UserDTO } from './models/models';
+import { imgUrl } from '../../utils/api/consts';
 
 const ProfilePageContent = styled(Flex)`
 	flex-direction: column;
@@ -60,7 +61,7 @@ const UserImgContainer = styled(Flex)`
 		img {
 			width: 100%;
 			height: 100%;
-			object-fit: color;
+			object-fit: cover;
 		}
 	}
 `;
@@ -99,7 +100,7 @@ export const ProfilePage = () => {
 		<ProfilePageContent>
 			<UserImgContainer>
 				<div className="wrapper">
-					<img src={userData.avatar} alt="" />
+					<img src={`${imgUrl}${userData.avatar}`} alt="" />
 				</div>
 			</UserImgContainer>
 			<ProfilePageNav>

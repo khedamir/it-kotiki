@@ -18,7 +18,7 @@ export const profileAvatar = (file: File) => {
 	return axios
 		.put(`${userUrl}/profile/avatar`, data, {
 			withCredentials: true,
-			'Content-Type': 'application/json',
+			'Content-Type': 'multipart/form-data',
 		})
 		.then(res => res.data)
 		.catch(err => Promise.reject(err.response.data.reason));
@@ -36,14 +36,14 @@ export const profilePassword = (body: IPasswordFormBody) => {
 
 export interface IUpdateProfileProps {
 	profileData: Omit<ISignupFormBody, 'password'>;
-	avatarData?: File;
+	avatar?: File;
 	passwordData: IPasswordFormBody;
 }
 
-export const updateProfile = async ({ profileData, avatarData, passwordData }: IUpdateProfileProps) => {
+export const updateProfile = async ({ profileData, avatar, passwordData }: IUpdateProfileProps) => {
 	const profilePromise = profile(profileData);
 	const passwordPromise = profilePassword(passwordData);
-	const avatarPromise = avatarData ? profileAvatar(avatarData) : Promise.resolve();
+	const avatarPromise = avatar ? profileAvatar(avatar) : Promise.resolve();
 
 	return Promise.all([profilePromise, avatarPromise, passwordPromise])
 		.then(([profileResponse, avatarResponse, passwordResponse]) => {

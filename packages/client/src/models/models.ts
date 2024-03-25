@@ -16,4 +16,4 @@ export const enum EPAGE_TYPE {
 
 export const enum ENOTIFICATION_TYPE {
 	ERROR = 'error',
-	}
+}

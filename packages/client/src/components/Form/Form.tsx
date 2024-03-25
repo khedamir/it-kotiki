@@ -1,10 +1,11 @@
-import { Button, Form as AForm, Input } from 'antd';
+import { Button, Form as AForm, Input, Upload } from 'antd';
 import { EFIELD_TYPE } from './models/models';
 import { EPAGE_TYPE } from '../../models/models';
 import { FORM_CONFIG } from './constants/FormConfig';
 import { FC, Fragment } from 'react';
 import { FIELD_CONFIG } from './constants/FieldConfig';
 import { UserDTO } from '../../pages/ProfilePage/models/models';
+import { UploadOutlined } from '@ant-design/icons';
 
 interface IProps {
 	type: EPAGE_TYPE;
@@ -43,6 +44,13 @@ export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 					</Fragment>
 				);
 			})}
+			{type === EPAGE_TYPE.PROFILE && (
+				<AForm.Item name="upload" valuePropName="fileList" getValueFromEvent={e => e.fileList}>
+					<Upload listType="picture" maxCount={1} beforeUpload={() => false}>
+						<Button icon={<UploadOutlined />}>Загрузить изображение</Button>
+					</Upload>
+				</AForm.Item>
+			)}
 			<AForm.Item style={{ textAlign: 'center' }}>
 				<Button type="primary" htmlType="submit">
 					{CONFIG.submitBtnText}

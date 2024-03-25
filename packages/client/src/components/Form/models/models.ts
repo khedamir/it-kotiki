@@ -1,3 +1,4 @@
+import { RcFile } from 'antd/es/upload';
 import { ReactNode } from 'react';
 
 export enum EFIELD_TYPE {
@@ -53,4 +54,5 @@ export interface IProfileFormBody {
 	login: string;
 	password: string;
 	oldPassword: string;
+	upload: RcFile[];
 }

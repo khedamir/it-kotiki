@@ -25,29 +25,23 @@ const UserDataItem = styled(Flex)`
 	}
 `;
 
+const Items = {
+	first_name: 'Имя',
+	second_name: 'Фамилия',
+	login: 'Никнeйм',
+	email: 'Почта',
+	phone: 'Телефон',
+};
+
 export const ProfileDataView: FC<IProps> = ({ data }) => {
 	return (
 		<UserDataContainer>
-			<UserDataItem>
-				<Typography>Имя</Typography>
-				<Typography>{data.first_name}</Typography>
-			</UserDataItem>
-			<UserDataItem>
-				<Typography>Фамилия</Typography>
-				<Typography>{data.second_name}</Typography>
-			</UserDataItem>
-			<UserDataItem>
-				<Typography>Никнайм</Typography>
-				<Typography>{data.login}</Typography>
-			</UserDataItem>
-			<UserDataItem>
-				<Typography>Почта</Typography>
-				<Typography>{data.email}</Typography>
-			</UserDataItem>
-			<UserDataItem>
-				<Typography>Телефон</Typography>
-				<Typography>{data.phone}</Typography>
-			</UserDataItem>
+			{Object.keys(Items).map(key => (
+				<UserDataItem>
+					<Typography>{Items[key as keyof typeof Items]}</Typography>
+					<Typography>{data[key]}</Typography>
+				</UserDataItem>
+			))}
 		</UserDataContainer>
 	);
 };
