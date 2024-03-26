@@ -17,4 +17,16 @@ export const FORM_CONFIG: Record<EPAGE_TYPE, IFormConfig> = {
 			EFIELD_TYPE.PASSWORD,
 		],
 	},
+	[EPAGE_TYPE.PROFILE]: {
+		submitBtnText: 'Сохранить',
+		fields: [
+			EFIELD_TYPE.NAME,
+			EFIELD_TYPE.SURNAME,
+			EFIELD_TYPE.EMAIL,
+			EFIELD_TYPE.PHONE,
+			EFIELD_TYPE.LOGIN,
+			EFIELD_TYPE.OLD_PASSWORD,
+			EFIELD_TYPE.NEW_PASSWORD,
+		],
+	},
 };

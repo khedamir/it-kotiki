@@ -13,6 +13,7 @@ export enum EPATH {
 export const enum EPAGE_TYPE {
 	SIGNIN,
 	SIGNUP,
+	PROFILE,
 }
 
 export const enum ENOTIFICATION_TYPE {
