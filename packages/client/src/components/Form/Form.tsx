@@ -17,6 +17,8 @@ export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 	const [form] = AForm.useForm();
 	const CONFIG = FORM_CONFIG[type];
 
+	const PASSWORD_FIELDS = [EFIELD_TYPE.PASSWORD, EFIELD_TYPE.OLD_PASSWORD, EFIELD_TYPE.NEW_PASSWORD];
+
 	const handleSubmit = values => {
 		onSubmit(values);
 	};
@@ -35,13 +37,11 @@ export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 									message,
 								},
 							]}>
-							{name === EFIELD_TYPE.PASSWORD ||
-							name === EFIELD_TYPE.OLD_PASSWORD ||
-							name === EFIELD_TYPE.NEW_PASSWORD ? (
-									<Input.Password prefix={prefix} placeholder={placeholder} />
-								) : (
-									<Input prefix={prefix} type={type} placeholder={placeholder} />
-								)}
+							{PASSWORD_FIELDS.includes(name) ? (
+								<Input.Password prefix={prefix} placeholder={placeholder} />
+							) : (
+								<Input prefix={prefix} type={type} placeholder={placeholder} />
+							)}
 						</AForm.Item>
 					</Fragment>
 				);
