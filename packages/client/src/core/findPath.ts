@@ -158,7 +158,7 @@ export function findPath(map: number[], pathStart: number[], pathEnd: number[]) 
 	return ArrayToObject(calculatePath());
 }
 
-const ArrayToObject = (result: number[][]) => {
+export const ArrayToObject = (result: number[][]) => {
 	const pathObj: CordsType[] = [];
 
 	result.forEach((tile: number[], i: number) => {
