@@ -4,27 +4,29 @@ import { EPAGE_TYPE } from '../../models/models';
 import { FORM_CONFIG } from './constants/FormConfig';
 import { FC, Fragment } from 'react';
 import { FIELD_CONFIG } from './constants/FieldConfig';
-import { UserDTO } from '../../pages/ProfilePage/models/models';
 import { UploadOutlined } from '@ant-design/icons';
 
-interface IProps {
+interface IProps<T> {
 	type: EPAGE_TYPE;
-	onSubmit: (body) => void;
-	formData?: UserDTO;
+	onSubmit: (any) => Promise<void>;
+	initialData?: T;
 }
 
-export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
+export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 	const [form] = AForm.useForm();
 	const CONFIG = FORM_CONFIG[type];
+	const isProfileForm = type === EPAGE_TYPE.PROFILE;
 
 	const PASSWORD_FIELDS = [EFIELD_TYPE.PASSWORD, EFIELD_TYPE.OLD_PASSWORD, EFIELD_TYPE.NEW_PASSWORD];
 
 	const handleSubmit = values => {
-		onSubmit(values);
+		onSubmit(values).then(() => {
+			if (isProfileForm) form.setFieldValue('upload', []);
+		});
 	};
 
 	return (
-		<AForm form={form} onFinish={handleSubmit} initialValues={formData}>
+		<AForm form={form} onFinish={handleSubmit} initialValues={initialData}>
 			{CONFIG.fields.map(fieldType => {
 				const { name, required, message, placeholder, type, prefix = null } = FIELD_CONFIG[fieldType];
 				return (
@@ -46,7 +48,7 @@ export const Form: FC<IProps> = ({ type, onSubmit, formData }: IProps) => {
 					</Fragment>
 				);
 			})}
-			{type === EPAGE_TYPE.PROFILE && (
+			{isProfileForm && (
 				<AForm.Item name="upload" valuePropName="fileList" getValueFromEvent={e => e.fileList}>
 					<Upload listType="picture" maxCount={1} beforeUpload={() => false}>
 						<Button icon={<UploadOutlined />}>Загрузить изображение</Button>

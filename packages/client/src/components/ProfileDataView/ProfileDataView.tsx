@@ -2,11 +2,8 @@ import React, { FC } from 'react';
 import { Flex, Typography } from 'antd';
 import styled from 'styled-components';
 import { DEEP_OCEAN } from '../../constants/color';
-import { UserDTO } from '../../pages/ProfilePage/models/models';
-
-interface IProps {
-	data: UserDTO;
-}
+import { userSelector } from '../../store/slices/user.slice';
+import { useSelector } from 'react-redux';
 
 const UserDataContainer = styled(Flex)`
 	width: 100%;
@@ -33,7 +30,9 @@ const Items = {
 	phone: 'Телефон',
 };
 
-export const ProfileDataView: FC<IProps> = ({ data }) => {
+export const ProfileDataView: FC = () => {
+	const data = useSelector(userSelector);
+
 	return (
 		<UserDataContainer>
 			{Object.keys(Items).map(key => (

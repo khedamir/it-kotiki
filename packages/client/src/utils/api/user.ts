@@ -1,6 +1,7 @@
 import { userUrl } from './consts';
 import { IPasswordFormBody, ISignupFormBody } from '../../components/Form/models/models';
 import axios from 'axios';
+import { UserDTO } from '../../store/slices/user.slice';
 
 export const profile = (body: Omit<ISignupFormBody, 'password'>) => {
 	return axios
@@ -48,8 +49,8 @@ export const updateProfile = async ({ profileData, avatar, passwordData }: IUpda
 	return Promise.all([profilePromise, avatarPromise, passwordPromise])
 		.then(([profileResponse, avatarResponse, passwordResponse]) => {
 			return {
-				profile: profileResponse,
-				avatar: avatarResponse,
+				profile: profileResponse as UserDTO,
+				avatar: avatarResponse as UserDTO,
 				password: passwordResponse,
 			};
 		})

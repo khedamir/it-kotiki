@@ -1,14 +1,15 @@
 import { Avatar, Button, Flex, Tabs, Typography } from 'antd';
-import { useNavigate, useOutletContext } from 'react-router';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { logout, me } from '../../utils/api/auth';
+import { logout } from '../../utils/api/auth';
 import { ENOTIFICATION_TYPE, EPATH } from '../../models/models';
 import { ProfileDataView } from '../../components/ProfileDataView/ProfileDataView';
 import { ProfileDataForm } from '../../components/ProfileDataForm/ProfileDataForm';
-import { useEffect, useState } from 'react';
-import { UserDTO } from './models/models';
 import { imgUrl } from '../../utils/api/consts';
 import { UserOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNotificationInfo } from '../../store/slices/notification.slice';
+import { clearUserData, userSelector } from '../../store/slices/user.slice';
 
 const ProfilePageContent = styled(Flex)`
 	flex-direction: column;
@@ -23,32 +24,34 @@ const ProfilePageBottom = styled(Flex)`
 `;
 
 export const ProfilePage = () => {
-	const [userData, setUserData] = useState<UserDTO>();
 	const navigate = useNavigate();
-	const { openNotification } = useOutletContext();
-
-	useEffect(() => {
-		me().then(result => setUserData(result));
-	}, []);
+	const dispatch = useDispatch();
+	const { id, avatar } = useSelector(userSelector);
 
 	const handleLogout = () => {
 		logout()
 			.then(() => {
 				localStorage.setItem('auth', 'false');
+				dispatch(clearUserData());
 				navigate(EPATH.SIGN_IN, { replace: true });
 			})
 			.catch(err => {
-				openNotification(ENOTIFICATION_TYPE.ERROR, err.reason);
+				dispatch(
+					setNotificationInfo({
+						text: ENOTIFICATION_TYPE.ERROR,
+						type: err.reason,
+					}),
+				);
 			});
 	};
 
-	if (!userData) {
+	if (!id) {
 		return <Typography>loading...</Typography>;
 	}
 
 	return (
 		<ProfilePageContent>
-			<Avatar src={`${imgUrl}${userData.avatar}`} size={112} icon={<UserOutlined />} />
+			<Avatar src={`${imgUrl}${avatar}`} size={112} icon={<UserOutlined />} />
 			<Tabs
 				defaultActiveKey="1"
 				style={{ width: '100%' }}
@@ -58,12 +61,12 @@ export const ProfilePage = () => {
 					{
 						key: '1',
 						label: 'Просмотр',
-						children: <ProfileDataView data={userData} />,
+						children: <ProfileDataView />,
 					},
 					{
 						key: '2',
 						label: 'Редактирование',
-						children: <ProfileDataForm data={userData} />,
+						children: <ProfileDataForm />,
 					},
 				]}
 			/>
