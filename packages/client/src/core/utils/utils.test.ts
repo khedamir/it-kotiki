@@ -1,4 +1,3 @@
-// import { distanceHypot } from './hypot';
 import { randomInt } from './randomInt';
 import { mouseCordsCheck } from './mouseCordsCheck';
 import { distanceHypot } from './hypot';
