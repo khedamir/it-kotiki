@@ -1,4 +1,8 @@
-export const objectSorter = (data: Record<string, string | number>[], value: string, order: string) => {
+export const objectSorter = (
+	data: Record<string, string | number>[],
+	value?: string | undefined,
+	order?: boolean | undefined,
+) => {
 	if (!value) return data;
 	return data?.sort((a, b) => {
 		if (order) {
