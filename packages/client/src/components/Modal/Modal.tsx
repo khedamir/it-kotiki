@@ -6,7 +6,7 @@ export const Modal: React.FC<IModalProps> = ({ type, ...props }) => {
 	const { content, title, okText, cancelText } = MODAL_CONFIG[type];
 
 	return (
-		<AModal {...props} title={title} okText={okText} cancelText={cancelText}>
+		<AModal title={title} okText={okText} cancelText={cancelText} {...props}>
 			{content}
 		</AModal>
 	);
