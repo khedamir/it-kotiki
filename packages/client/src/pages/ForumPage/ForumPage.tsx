@@ -6,7 +6,7 @@ import { IForumTopic } from '../../components/ForumTopic/models/models';
 
 const { Title } = Typography;
 
-const mockForumTopicsData: IForumTopic[] = [
+export const mockForumTopicsData: IForumTopic[] = [
 	{
 		avatarPath: '',
 		topicTitle: 'Тема 1',
