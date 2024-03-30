@@ -23,17 +23,10 @@ export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 	return (
 		<AForm form={form} onFinish={handleSubmit} initialValues={initialData}>
 			{CONFIG.fields.map(fieldType => {
-				const { name, required, message, placeholder, type, prefix = null } = FIELD_CONFIG[fieldType];
+				const { name, rules, placeholder, type, prefix = null } = FIELD_CONFIG[fieldType];
 				return (
 					<Fragment key={name}>
-						<AForm.Item<Record<EFIELD_TYPE, string>>
-							name={name}
-							rules={[
-								{
-									required,
-									message,
-								},
-							]}>
+						<AForm.Item<Record<EFIELD_TYPE, string>> name={name} rules={rules}>
 							{PASSWORD_FIELDS.includes(name) ? (
 								<Input.Password prefix={prefix} placeholder={placeholder} />
 							) : (
