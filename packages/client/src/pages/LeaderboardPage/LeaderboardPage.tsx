@@ -84,7 +84,7 @@ export const LeaderboardPage: React.FC = () => {
 			<PageContent>
 				<PageTitle level={1}>
 					Рейтинг игроков
-					<FilterOutlined onClick={toggleControls} rev={undefined} />
+					<FilterOutlined onClick={toggleControls} />
 				</PageTitle>
 				<ContentContainer>
 					{data?.map(({ userPosition, avatarPath, playerName, scoreTotal, scoreToday, id }) => (
