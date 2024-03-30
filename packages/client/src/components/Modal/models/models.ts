@@ -6,6 +6,7 @@ export enum EMODAL_TYPE {
 
 export interface IModalProps extends ModalProps {
 	type: EMODAL_TYPE;
+	count?: number;
 }
 
 export interface IModalConfig {

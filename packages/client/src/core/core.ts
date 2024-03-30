@@ -7,39 +7,44 @@ import { Player } from './classes/Player';
 import { Home } from './classes/Home';
 import { Enemy } from './classes/Enemy';
 import { TowerPlace } from './classes/TowerPlace';
-import { CANVAS_HEIGHT, CANVAS_WIDTH, START_COUNT_TOWERS, TILE_SIZE, TILE_WIDTH } from '../constants/core.config';
+import { CANVAS_HEIGHT,
+	CANVAS_WIDTH,
+	IMAGES,
+	START_COUNT_TOWERS,
+	TILE_SIZE,
+	TILE_WIDTH } from '../constants/core.config';
 import { Tower } from './classes/Tower';
 import { findPath } from './findPath';
 import { mouseCordsCheck } from './utils/mouseCordsCheck';
 import { randomInt } from './utils/randomInt';
 import { IimgSprite } from './models/models';
 
-export const Core = () => {
-	const CANVAS_NODE: HTMLCanvasElement = document.querySelector('canvas') as HTMLCanvasElement;
-	const CTX: CanvasRenderingContext2D = CANVAS_NODE.getContext('2d') as CanvasRenderingContext2D;
-	CANVAS_NODE.width = CANVAS_WIDTH;
-	CANVAS_NODE.height = CANVAS_HEIGHT;
+export class Core {
+	CANVAS_NODE: HTMLCanvasElement;
+	CTX: CanvasRenderingContext2D;
 
-	const collisions: number[] = map;
-	const collisionMap: number[][] = [];
-	const boundaries: Boundary[] = [];
-	const towerPlaces: TowerPlace[] = [];
-	const towers: Tower[] = [];
-	const homePlace = [7, 3];
-	const imgSprite: IimgSprite = {};
-	const imgPromises: Promise<HTMLImageElement>[] = [];
+	_activeTile!: null | TowerPlace;
+	_activeHome = false;
+	_activeHomeClick = false;
+	_player!: Player;
+	_home!: Home;
+	_enemies: Enemy[] = [];
+	_collisions: number[] = map;
+	_collisionMap: number[][] = [];
+	_boundaries: Boundary[] = [];
+	_towerPlaces: TowerPlace[] = [];
+	_towers: Tower[] = [];
+	_homePlace = [7, 3];
+	_imgSprite: IimgSprite = {};
+	_imgPromises: Promise<HTMLImageElement>[] = [];
 
-	let activeTile: null | TowerPlace;
-	let activeHome = false;
-	let activeHomeClick = false;
-	let countTowers = START_COUNT_TOWERS;
-	let player: Player;
-	let home: Home;
-	let homeHealth = 100;
-	let enemies: Enemy[] = [];
-	let killedEnemies = 0;
+	countTowers = START_COUNT_TOWERS;
+	homeHealth = 100;
+	killedEnemies = 0;
 
-	const keys = {
+	images: models.ObjectString = IMAGES;
+
+	keys = {
 		w: {
 			pressed: false,
 		},
@@ -54,157 +59,172 @@ export const Core = () => {
 		},
 	};
 
-	const mouse: models.CordsType = {
+	mouse: models.CordsType = {
 		x: 0,
 		y: 0,
 	};
 
-	const createImage = (name: string, src: string) => {
-		const img = new Image();
-		img.src = src;
-		imgSprite[name] = img;
-		imgPromises.push(
-			new Promise<any>((resolve, reject) => {
-				img.onload = () => resolve(img);
-				img.onerror = () => reject(new Error('Ошибка загрузки изображения'));
-				img.src = src;
-			}),
-		);
-	};
+	constructor({ ...props }) {
+		this.CANVAS_NODE = props.canvas;
+		this.CANVAS_NODE.width = CANVAS_WIDTH;
+		this.CANVAS_NODE.height = CANVAS_HEIGHT;
+		this.CTX = this.CANVAS_NODE.getContext('2d') as CanvasRenderingContext2D;
+	}
 
-	createImage('background', 'background.png');
-	createImage('playerImageRigth', 'Run_right.png');
-	createImage('playerImageLeft', 'Run_left.png');
-	createImage('enemyRock', 'enemy_rock_run.png');
-	createImage('enemyBat', 'bat.png');
-	createImage('tower', 'tower.png');
-	createImage('home', 'home.png');
-	createImage('homeAfter', 'home_after.png');
+	startGame = () => {
+		this.CTX.imageSmoothingEnabled = false;
+		this.homeHealth = 100;
+		this._enemies = [];
 
-	const startGame = () => {
-		CTX.imageSmoothingEnabled = false;
-		homeHealth = 100;
-		enemies = [];
+		this.buildCollision();
 
-		buildCollision();
+		this.createImage(this.images);
 
-		Promise.all(imgPromises).then(() => {
-			home = new Home({
-				canvas: CTX,
+		Promise.all(this._imgPromises).then(() => {
+			this._home = new Home({
+				canvas: this.CTX,
 				position: {
 					x: TILE_SIZE * 2,
 					y: TILE_SIZE * 5,
 				},
-				image: imgSprite.home,
+				image: this._imgSprite.home,
 				sprites: {
-					before: imgSprite.home,
-					after: imgSprite.homeAfter,
+					before: this._imgSprite.home,
+					after: this._imgSprite.homeAfter,
 				},
 			});
 
-			player = new Player({
-				canvas: CTX,
+			this._player = new Player({
+				canvas: this.CTX,
 				position: {
 					x: CANVAS_WIDTH / 2,
 					y: CANVAS_HEIGHT / 2,
 				},
-				image: imgSprite.playerImageRigth,
+				image: this._imgSprite.playerImageRigth,
 				size: 2,
 				velocity: 3,
 				frames: {
 					max: 12,
 				},
 				sprites: {
-					left: imgSprite.playerImageLeft,
-					rigth: imgSprite.playerImageRigth,
+					left: this._imgSprite.playerImageLeft,
+					rigth: this._imgSprite.playerImageRigth,
 				},
 				target: null,
 			});
 
-			boundaries.forEach(boundary => {
+			this._boundaries.forEach(boundary => {
 				boundary.draw();
 			});
 
-			animate();
-			spawnEnemy(5);
+			this.animate();
+			this.spawnEnemy(5);
 
-			CANVAS_NODE.addEventListener('mousemove', event => {
-				if (event.target !== null) {
-					const target = event.target as HTMLCanvasElement;
-					mouse.x = event.clientX - target.offsetLeft;
-					mouse.y = event.clientY - target.offsetTop;
-				}
+			this.CANVAS_NODE.addEventListener('mousemove', this.listenerMouceMove);
+			this.CANVAS_NODE.addEventListener('click', this.listenerClick);
 
-				activeTile = null;
-				activeHome = false;
-
-				if (activeHomeClick) {
-					for (let i = 0; i < towerPlaces.length; i++) {
-						const tile = towerPlaces[i];
-						if (mouseCordsCheck(mouse, tile.position, tile.width, tile.height)) {
-							activeTile = tile;
-							break;
-						}
-					}
-				}
-
-				if (mouseCordsCheck(mouse, home.position, home.width, home.height)) {
-					home.image = home.sprites.after;
-					activeHome = true;
-				} else {
-					if (!activeHomeClick) {
-						home.image = home.sprites.before;
-						activeHome = false;
-					}
-				}
-			});
-
-			CANVAS_NODE.addEventListener('click', () => {
-				if (activeHome && countTowers > 0) {
-					activeHomeClick = !activeHomeClick;
-				}
-
-				if (activeTile && countTowers > 0) {
-					createTower(activeTile);
-					countTowers -= 1;
-					enemies.forEach(enemy => {
-						const newPath = findPath(
-							collisions,
-							[Math.round(enemy.center.y / TILE_SIZE), Math.round(enemy.center.x / TILE_SIZE)],
-							homePlace,
-						);
-						if (
-							newPath.length > 0 &&
-							activeTile &&
-							enemy.center.x > activeTile.position.x + activeTile.width
-						) {
-							enemy.pointIndex = 2;
-							enemy.path = newPath;
-						}
-					});
-				}
-
-				if (countTowers <= 0) {
-					activeHomeClick = false;
-				}
-			});
-
-			addEventKeys('keydown', keys, true);
-			addEventKeys('keyup', keys, false);
+			addEventKeys('keydown', this.keys, true);
+			addEventKeys('keyup', this.keys, false);
 		});
 	};
 
-	const buildCollision = () => {
-		for (let i = 0; i < collisions.length; i += CANVAS_WIDTH / TILE_SIZE) {
-			collisionMap.push(collisions.slice(i, CANVAS_WIDTH / TILE_SIZE + i));
+	endGame() {
+		this.CANVAS_NODE.removeEventListener('mousemove', this.listenerMouceMove);
+		this.CANVAS_NODE.removeEventListener('click', this.listenerClick);
+		this.onEndGame();
+	}
+
+	onEndGame() {
+		return;
+	}
+
+	createImage(images: models.ObjectString) {
+		Object.keys(images).forEach(key => {
+			const img = new Image();
+			img.src = images[key];
+			this._imgSprite[key] = img;
+			this._imgPromises.push(
+				new Promise<any>((resolve, reject) => {
+					img.onload = () => resolve(img);
+					img.onerror = () => reject(new Error('Ошибка загрузки изображения'));
+					img.src = images[key];
+				}),
+			);
+		});
+	}
+
+	listenerMouceMove = (event: MouseEvent) => {
+		if (event.target !== null) {
+			const target = event.target as HTMLCanvasElement;
+			this.mouse.x = event.clientX - target.offsetLeft;
+			this.mouse.y = event.clientY - target.offsetTop;
 		}
 
-		collisionMap.forEach((row, i) => {
+		this._activeTile = null;
+		this._activeHome = false;
+
+		if (this._activeHomeClick) {
+			for (let i = 0; i < this._towerPlaces.length; i++) {
+				const tile = this._towerPlaces[i];
+				if (mouseCordsCheck(this.mouse, tile.position, tile.width, tile.height)) {
+					this._activeTile = tile;
+					break;
+				}
+			}
+		}
+
+		if (mouseCordsCheck(this.mouse, this._home.position, this._home.width, this._home.height)) {
+			this._home.image = this._home.sprites.after;
+			this._activeHome = true;
+		} else {
+			if (!this._activeHomeClick) {
+				this._home.image = this._home.sprites.before;
+				this._activeHome = false;
+			}
+		}
+	};
+
+	listenerClick = () => {
+		if (this._activeHome && this.countTowers > 0) {
+			this._activeHomeClick = !this._activeHomeClick;
+		}
+
+		if (this._activeTile && this.countTowers > 0) {
+			this.createTower(this._activeTile);
+			this.countTowers -= 1;
+			this._enemies.forEach(enemy => {
+				const newPath = findPath(
+					this._collisions,
+					[Math.round(enemy.center.y / TILE_SIZE), Math.round(enemy.center.x / TILE_SIZE)],
+					this._homePlace,
+				);
+				if (
+					newPath.length > 0 &&
+					this._activeTile &&
+					enemy.center.x > this._activeTile.position.x + this._activeTile.width
+				) {
+					enemy.pointIndex = 2;
+					enemy.path = newPath;
+				}
+			});
+		}
+
+		if (this.countTowers <= 0) {
+			this._activeHomeClick = false;
+		}
+	};
+
+	buildCollision = () => {
+		for (let i = 0; i < this._collisions.length; i += CANVAS_WIDTH / TILE_SIZE) {
+			this._collisionMap.push(this._collisions.slice(i, CANVAS_WIDTH / TILE_SIZE + i));
+		}
+
+		this._collisionMap.forEach((row, i) => {
 			row.forEach((el, k) => {
 				if (el === 1 || el === 2) {
-					boundaries.push(
+					this._boundaries.push(
 						new Boundary({
-							canvas: CTX,
+							canvas: this.CTX,
 							position: {
 								x: k,
 								y: i,
@@ -213,9 +233,9 @@ export const Core = () => {
 					);
 				}
 				if (el === 2) {
-					boundaries.push(
+					this._boundaries.push(
 						new Boundary({
-							canvas: CTX,
+							canvas: this.CTX,
 							position: {
 								x: k,
 								y: i,
@@ -224,9 +244,9 @@ export const Core = () => {
 					);
 				}
 				if (el === 0 && k !== 1 && k !== 2 && k !== 3 && k !== 21 && k !== 20) {
-					towerPlaces.push(
+					this._towerPlaces.push(
 						new TowerPlace({
-							canvas: CTX,
+							canvas: this.CTX,
 							position: {
 								x: k,
 								y: i,
@@ -238,31 +258,31 @@ export const Core = () => {
 		});
 	};
 
-	function createTower(activeTile: TowerPlace) {
-		collisions.splice(
-			(activeTile.position.y / TILE_SIZE) * TILE_WIDTH + activeTile.position.x / TILE_SIZE + 1,
+	createTower(_activeTile: TowerPlace) {
+		this._collisions.splice(
+			(_activeTile.position.y / TILE_SIZE) * TILE_WIDTH + _activeTile.position.x / TILE_SIZE + 1,
 			1,
 			1,
 		);
-		boundaries.push(
+		this._boundaries.push(
 			new Boundary({
-				canvas: CTX,
+				canvas: this.CTX,
 				position: {
-					x: activeTile.position.x / TILE_SIZE,
-					y: activeTile.position.y / TILE_SIZE,
+					x: _activeTile.position.x / TILE_SIZE,
+					y: _activeTile.position.y / TILE_SIZE,
 				},
 			}),
 		);
-		boundaries.forEach(boundary => {
+		this._boundaries.forEach(boundary => {
 			boundary.draw();
 		});
-		towers.push(
+		this._towers.push(
 			new Tower({
-				canvas: CTX,
-				image: imgSprite.tower,
+				canvas: this.CTX,
+				image: this._imgSprite.tower,
 				position: {
-					x: activeTile.position.x,
-					y: activeTile.position.y,
+					x: _activeTile.position.x,
+					y: _activeTile.position.y,
 				},
 				velocity: 0,
 				target: null,
@@ -273,17 +293,17 @@ export const Core = () => {
 		);
 	}
 
-	function spawnEnemy(quantity: number) {
+	spawnEnemy(quantity: number) {
 		for (let i = 1; i < quantity + 1; i++) {
 			if (randomInt(0, 1) === 1) {
-				enemies.push(
+				this._enemies.push(
 					new Enemy({
-						canvas: CTX,
+						canvas: this.CTX,
 						position: {
 							x: CANVAS_WIDTH + 200,
 							y: 100 + (i * TILE_SIZE + 100),
 						},
-						image: imgSprite.enemyBat,
+						image: this._imgSprite.enemyBat,
 						size: 2,
 						velocity: 2,
 						frames: {
@@ -291,18 +311,18 @@ export const Core = () => {
 						},
 						sprites: {},
 						target: null,
-						path: findPath(collisions, [randomInt(4, 7), 22], homePlace),
+						path: findPath(this._collisions, [randomInt(4, 7), 22], this._homePlace),
 					}),
 				);
 			} else {
-				enemies.push(
+				this._enemies.push(
 					new Enemy({
-						canvas: CTX,
+						canvas: this.CTX,
 						position: {
 							x: CANVAS_WIDTH + 200,
 							y: CANVAS_HEIGHT / 2 + i * TILE_SIZE,
 						},
-						image: imgSprite.enemyRock,
+						image: this._imgSprite.enemyRock,
 						size: 2,
 						velocity: 2,
 						target: null,
@@ -310,24 +330,24 @@ export const Core = () => {
 						frames: {
 							max: 14,
 						},
-						path: findPath(collisions, [randomInt(4, 7), 22], homePlace),
+						path: findPath(this._collisions, [randomInt(4, 7), 22], this._homePlace),
 					}),
 				);
 			}
 		}
 	}
 
-	function moving(x: number, y: number) {
-		if (x > 0) player.image = player.sprites.left;
-		if (x < 0) player.image = player.sprites.rigth;
-		player.moving = true;
+	moving(x: number, y: number) {
+		if (x > 0) this._player.image = this._player.sprites.left;
+		if (x < 0) this._player.image = this._player.sprites.rigth;
+		this._player.moving = true;
 		let stop = false;
-		boundaries.forEach(boundary => {
+		this._boundaries.forEach(boundary => {
 			if (
-				player.position.x - x + player.width >= boundary.position.x &&
-				player.position.x - x <= boundary.position.x + boundary.width &&
-				player.position.y + y <= boundary.position.y + boundary.height &&
-				player.position.y + y + player.width >= boundary.position.y
+				this._player.position.x - x + this._player.width >= boundary.position.x &&
+				this._player.position.x - x <= boundary.position.x + boundary.width &&
+				this._player.position.y + y <= boundary.position.y + boundary.height &&
+				this._player.position.y + y + this._player.width >= boundary.position.y
 			) {
 				stop = true;
 			}
@@ -335,8 +355,8 @@ export const Core = () => {
 		return stop;
 	}
 
-	function killCheck(gunner: Player | Tower) {
-		const validEnemys = enemies.filter(enemy => {
+	killCheck(gunner: Player | Tower) {
+		const validEnemys = this._enemies.filter(enemy => {
 			const distance = distanceHypot(enemy.center, gunner.center);
 			return distance < enemy.radius + gunner.attackRange;
 		});
@@ -355,12 +375,12 @@ export const Core = () => {
 			if (distance <= projectile.target.width + projectile.radius) {
 				projectile.target.health -= 20;
 				if (projectile.target.health <= 0) {
-					const targetIndex = enemies.findIndex(enemy => {
+					const targetIndex = this._enemies.findIndex(enemy => {
 						return projectile.target === enemy;
 					});
 					if (0 <= targetIndex) {
-						enemies.splice(targetIndex, 1);
-						killedEnemies += 1;
+						this._enemies.splice(targetIndex, 1);
+						this.killedEnemies += 1;
 					}
 				}
 				gunner.projectile.splice(i, 1);
@@ -368,66 +388,63 @@ export const Core = () => {
 		}
 	}
 
-	function animate() {
-		CTX.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		CTX.drawImage(imgSprite.background, 0, 0);
+	animate() {
+		this.CTX.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		this.CTX.drawImage(this._imgSprite.background, 0, 0);
 
-		player.update();
-		home.draw();
+		this._player.update();
+		this._home.draw();
 
-		if (activeHomeClick) {
-			towerPlaces.forEach(place => {
-				place.update(mouse);
+		if (this._activeHomeClick) {
+			this._towerPlaces.forEach(place => {
+				place.update(this.mouse);
 			});
 		}
 
-		for (let i = enemies.length - 1; i >= 0; i--) {
-			const enemy = enemies[i];
+		for (let i = this._enemies.length - 1; i >= 0; i--) {
+			const enemy = this._enemies[i];
 			enemy.update();
 			const enemyPlace = [Math.round(enemy.center.y / TILE_SIZE), Math.round(enemy.center.x / TILE_SIZE)];
-			if (homePlace[0] === enemyPlace[0] && homePlace[1] === enemyPlace[1]) {
-				enemies.splice(i, 1);
-				homeHealth -= 10;
+			if (this._homePlace[0] === enemyPlace[0] && this._homePlace[1] === enemyPlace[1]) {
+				this._enemies.splice(i, 1);
+				this.homeHealth -= 10;
 			}
-			if (homeHealth <= 0) {
-				// eslint-disable-next-line no-console
-				console.log('game over');
-			}
-		}
-
-		killCheck(player);
-
-		if (enemies.length < 10) {
-			spawnEnemy(Math.round(killedEnemies / 2));
-		}
-
-		if (player.frames.val === 0) {
-			player.moving = false;
-		}
-
-		const verticalDirection = keys.w.pressed ? -1 : keys.s.pressed ? 1 : 0;
-		const horizontalDirection = keys.a.pressed ? 1 : keys.d.pressed ? -1 : 0;
-
-		if (keys.a.pressed || keys.d.pressed) {
-			if (!moving(horizontalDirection * 5, 0)) {
-				player.center.x -= horizontalDirection * player.velocity;
-				player.position.x -= horizontalDirection * player.velocity;
-			}
-		}
-		if (keys.w.pressed || keys.s.pressed) {
-			if (!moving(0, verticalDirection * 5)) {
-				player.center.y += verticalDirection * player.velocity;
-				player.position.y += verticalDirection * player.velocity;
+			if (this.homeHealth <= 0) {
+				this.endGame();
 			}
 		}
 
-		towers.forEach(tower => {
+		this.killCheck(this._player);
+
+		if (this._enemies.length < 10) {
+			this.spawnEnemy(Math.round((this.killedEnemies + 5) / 2));
+		}
+
+		if (this._player.frames.val === 0) {
+			this._player.moving = false;
+		}
+
+		const verticalDirection = this.keys.w.pressed ? -1 : this.keys.s.pressed ? 1 : 0;
+		const horizontalDirection = this.keys.a.pressed ? 1 : this.keys.d.pressed ? -1 : 0;
+
+		if (this.keys.a.pressed || this.keys.d.pressed) {
+			if (!this.moving(horizontalDirection * 5, 0)) {
+				this._player.center.x -= horizontalDirection * this._player.velocity;
+				this._player.position.x -= horizontalDirection * this._player.velocity;
+			}
+		}
+		if (this.keys.w.pressed || this.keys.s.pressed) {
+			if (!this.moving(0, verticalDirection * 5)) {
+				this._player.center.y += verticalDirection * this._player.velocity;
+				this._player.position.y += verticalDirection * this._player.velocity;
+			}
+		}
+
+		this._towers.forEach(tower => {
 			tower.update();
-			killCheck(tower);
+			this.killCheck(tower);
 		});
 
-		if (homeHealth > 0) window.requestAnimationFrame(animate);
+		this.homeHealth <= 0 ? this.endGame() : window.requestAnimationFrame(this.animate.bind(this));
 	}
-
-	startGame();
-};
+}
