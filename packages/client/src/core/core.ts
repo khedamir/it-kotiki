@@ -20,23 +20,23 @@ import { randomInt } from './utils/randomInt';
 import { IimgSprite } from './models/models';
 
 export class Core {
+	private _activeTile!: null | TowerPlace;
+	private _activeHome = false;
+	private _activeHomeClick = false;
+	private _player!: Player;
+	private _home!: Home;
+	private _enemies: Enemy[] = [];
+	private _collisions: number[] = map;
+	private _collisionMap: number[][] = [];
+	private _boundaries: Boundary[] = [];
+	private _towerPlaces: TowerPlace[] = [];
+	private _towers: Tower[] = [];
+	private _homePlace = [7, 3];
+	private _imgSprite: IimgSprite = {};
+	private _imgPromises: Promise<HTMLImageElement>[] = [];
+
 	CANVAS_NODE: HTMLCanvasElement;
 	CTX: CanvasRenderingContext2D;
-
-	_activeTile!: null | TowerPlace;
-	_activeHome = false;
-	_activeHomeClick = false;
-	_player!: Player;
-	_home!: Home;
-	_enemies: Enemy[] = [];
-	_collisions: number[] = map;
-	_collisionMap: number[][] = [];
-	_boundaries: Boundary[] = [];
-	_towerPlaces: TowerPlace[] = [];
-	_towers: Tower[] = [];
-	_homePlace = [7, 3];
-	_imgSprite: IimgSprite = {};
-	_imgPromises: Promise<HTMLImageElement>[] = [];
 
 	countTowers = START_COUNT_TOWERS;
 	homeHealth = 100;
@@ -144,7 +144,7 @@ export class Core {
 			img.src = images[key];
 			this._imgSprite[key] = img;
 			this._imgPromises.push(
-				new Promise<any>((resolve, reject) => {
+				new Promise<HTMLImageElement>((resolve, reject) => {
 					img.onload = () => resolve(img);
 					img.onerror = () => reject(new Error('Ошибка загрузки изображения'));
 					img.src = images[key];
@@ -243,7 +243,7 @@ export class Core {
 						}),
 					);
 				}
-				if (el === 0 && k !== 1 && k !== 2 && k !== 3 && k !== 21 && k !== 20) {
+				if (el === 0 && [1, 2, 3, 20, 21].indexOf(k) === -1) {
 					this._towerPlaces.push(
 						new TowerPlace({
 							canvas: this.CTX,
@@ -356,18 +356,18 @@ export class Core {
 	}
 
 	killCheck(gunner: Player | Tower) {
-		const validEnemys = this._enemies.filter(enemy => {
+		const validEnemies = this._enemies.filter(enemy => {
 			const distance = distanceHypot(enemy.center, gunner.center);
 			return distance < enemy.radius + gunner.attackRange;
 		});
 
-		const validEnemysDistance: models.ValidEnemyType = {};
+		const validEnemiesDistance: models.ValidEnemyType = {};
 
-		validEnemys.forEach(target => {
-			validEnemysDistance[distanceHypot(target.center, gunner.center)] = target;
+		validEnemies.forEach(target => {
+			validEnemiesDistance[distanceHypot(target.center, gunner.center)] = target;
 		});
 
-		gunner.target = validEnemysDistance[Math.min(...Object.keys(validEnemysDistance).map(Number))];
+		gunner.target = validEnemiesDistance[Math.min(...Object.keys(validEnemiesDistance).map(Number))];
 		for (let i = gunner.projectile.length - 1; i >= 0; i--) {
 			const projectile = gunner.projectile[i];
 			projectile.update();
