@@ -1,15 +1,16 @@
-import { Avatar, Button, Flex, Tabs, Typography } from 'antd';
+import { Button, Flex, Tabs, Typography } from 'antd';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { logout } from '../../utils/api/auth';
 import { ENOTIFICATION_TYPE, EPATH } from '../../models/models';
-import { ProfileDataView } from '../../components/ProfileDataView/ProfileDataView';
-import { ProfileDataForm } from '../../components/ProfileDataForm/ProfileDataForm';
-import { imgUrl } from '../../utils/api/consts';
-import { UserOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { ProfileDataView } from './ProfileDataView/ProfileDataView';
+import { ProfileDataForm } from './ProfileDataForm/ProfileDataForm';
+import { useSelector } from 'react-redux';
 import { setNotificationInfo } from '../../store/slices/notification.slice';
-import { clearUserData, userSelector } from '../../store/slices/user.slice';
+import { clearUserData, userSelector } from '../../store/slices/userSlice/user.slice';
+import { ProfileAvatar } from './ProfileAvatar/ProfileAvatar';
+import { ProfilePasswordForm } from './ProfilePasswordForm/ProfilePasswordForm';
+import { useAppDispatch } from '../../store/store';
 
 const ProfilePageContent = styled(Flex)`
 	flex-direction: column;
@@ -25,8 +26,8 @@ const ProfilePageBottom = styled(Flex)`
 
 export const ProfilePage = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const { id, avatar } = useSelector(userSelector);
+	const dispatch = useAppDispatch();
+	const { id } = useSelector(userSelector);
 
 	const handleLogout = () => {
 		logout()
@@ -51,7 +52,7 @@ export const ProfilePage = () => {
 
 	return (
 		<ProfilePageContent>
-			<Avatar src={`${imgUrl}${avatar}`} size={112} icon={<UserOutlined />} />
+			<ProfileAvatar />
 			<Tabs
 				defaultActiveKey="1"
 				style={{ width: '100%' }}
@@ -67,6 +68,11 @@ export const ProfilePage = () => {
 						key: '2',
 						label: 'Редактирование',
 						children: <ProfileDataForm />,
+					},
+					{
+						key: '3',
+						label: 'Смена пароля',
+						children: <ProfilePasswordForm />,
 					},
 				]}
 			/>

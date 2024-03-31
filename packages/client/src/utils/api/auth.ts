@@ -15,16 +15,6 @@ export const auth = (type: string, body: ISigninFormBody | ISignupFormBody) => {
 		});
 };
 
-export const me = () => {
-	return axios
-		.get(`${authUrl}/user`, {
-			withCredentials: true,
-			'Content-Type': 'application/json',
-		})
-		.then(res => res.data)
-		.catch(err => Promise.reject(err.response.data.reason));
-};
-
 export const logout = () => {
 	return axios
 		.post(

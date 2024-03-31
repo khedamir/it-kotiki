@@ -1,28 +1,23 @@
-import { Button, Form as AForm, Input, Upload } from 'antd';
+import { Button, Form as AForm, Input } from 'antd';
 import { EFIELD_TYPE } from './models/models';
 import { EPAGE_TYPE } from '../../models/models';
 import { FORM_CONFIG } from './constants/FormConfig';
 import { FC, Fragment } from 'react';
 import { FIELD_CONFIG } from './constants/FieldConfig';
-import { UploadOutlined } from '@ant-design/icons';
 
 interface IProps<T> {
 	type: EPAGE_TYPE;
-	onSubmit: (any) => Promise<void>;
+	onSubmit: (unknown) => Promise<void>;
 	initialData?: T;
 }
 
 export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 	const [form] = AForm.useForm();
 	const CONFIG = FORM_CONFIG[type];
-	const isProfileForm = type === EPAGE_TYPE.PROFILE;
-
 	const PASSWORD_FIELDS = [EFIELD_TYPE.PASSWORD, EFIELD_TYPE.OLD_PASSWORD, EFIELD_TYPE.NEW_PASSWORD];
 
 	const handleSubmit = values => {
-		onSubmit(values).then(() => {
-			if (isProfileForm) form.setFieldValue('upload', []);
-		});
+		onSubmit(values);
 	};
 
 	return (
@@ -48,13 +43,6 @@ export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 					</Fragment>
 				);
 			})}
-			{isProfileForm && (
-				<AForm.Item name="upload" valuePropName="fileList" getValueFromEvent={e => e.fileList}>
-					<Upload listType="picture" maxCount={1} beforeUpload={() => false}>
-						<Button icon={<UploadOutlined />}>Загрузить изображение</Button>
-					</Upload>
-				</AForm.Item>
-			)}
 			<AForm.Item style={{ textAlign: 'center' }}>
 				<Button htmlType="submit">{CONFIG.submitBtnText}</Button>
 			</AForm.Item>

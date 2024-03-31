@@ -1,5 +1,9 @@
-import { RcFile } from 'antd/es/upload';
 import { ReactNode } from 'react';
+
+export const enum EFORM_TYPE {
+	PROFILE_INFO = 'PROFILE_INFO',
+	PROFILE_PASSWORD = 'PROFILE_PASSWORD',
+}
 
 export enum EFIELD_TYPE {
 	LOGIN = 'login',
@@ -28,32 +32,23 @@ export interface IFieldConfig {
 	prefix?: ReactNode;
 }
 
-export interface ISigninFormBody {
-	login: string;
-	password: string;
-}
-
-export interface ISignupFormBody {
+export interface IUserInfo {
 	first_name: string;
 	second_name: string;
 	email: string;
 	phone: string;
 	login: string;
+}
+
+export interface ISigninFormBody extends Pick<IUserInfo, 'login'> {
+	password: string;
+}
+
+export interface ISignupFormBody extends IUserInfo {
 	password: string;
 }
 
 export interface IPasswordFormBody {
 	oldPassword: string;
 	newPassword: string;
-}
-
-export interface IProfileFormBody {
-	first_name: string;
-	second_name: string;
-	email: string;
-	phone: string;
-	login: string;
-	newPassword: string;
-	oldPassword: string;
-	upload: RcFile[];
 }
