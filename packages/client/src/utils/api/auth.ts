@@ -9,17 +9,10 @@ export const auth = (type: string, body: ISigninFormBody | ISignupFormBody) => {
 			'Content-Type': 'application/json',
 		})
 		.then(res => res.data)
-		.catch(err => Promise.reject(err.response.data.reason));
-};
-
-export const me = () => {
-	return axios
-		.get(`${authUrl}/user`, {
-			withCredentials: true,
-			'Content-Type': 'application/json',
-		})
-		.then(res => res.data)
-		.catch(err => Promise.reject(err.response.data.reason));
+		.catch(err => {
+			if (err.response.data.reason === 'User already in system') return Promise.resolve();
+			return Promise.reject(err.response.data.reason);
+		});
 };
 
 export const logout = () => {
