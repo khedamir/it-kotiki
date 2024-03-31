@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ENOTIFICATION_TYPE } from '../../models/models';
+import { isError } from '../utils/utils';
+import { changePassword, changeUserInfo } from './userSlice/user.thunk';
 
-interface INData {
+interface INotificationData {
 	type: ENOTIFICATION_TYPE | null;
 	text: string;
 }
 
-interface INState {
+interface INotificationState {
 	isOpen: boolean;
-	data: INData;
+	data: INotificationData;
 }
 
 const initialState = {
@@ -26,15 +28,35 @@ export const notificationSlice = createSlice({
 		notificationSelector: state => state,
 	},
 	reducers: (create): any => ({
-		setNotificationInfo: create.reducer((state: INState, { payload }: PayloadAction<INData>) => {
-			state.data = payload;
-			state.isOpen = true;
-		}),
-		clearNotificationInfo: create.reducer((state: INState) => {
+		setNotificationInfo: create.reducer(
+			(state: INotificationState, { payload }: PayloadAction<INotificationData>) => {
+				state.data = payload;
+				state.isOpen = true;
+			},
+		),
+		clearNotificationInfo: create.reducer((state: INotificationState) => {
 			state.data = initialState.data;
 			state.isOpen = false;
 		}),
 	}),
+	extraReducers: builder => {
+		builder
+			.addCase(changeUserInfo.fulfilled, (state: INotificationState) => {
+				state.data.text = 'Данные обновлены';
+				state.data.type = ENOTIFICATION_TYPE.SUCCESS;
+				state.isOpen = true;
+			})
+			.addCase(changePassword.fulfilled, (state: INotificationState) => {
+				state.data.text = 'Данные обновлены';
+				state.data.type = ENOTIFICATION_TYPE.SUCCESS;
+				state.isOpen = true;
+			})
+			.addMatcher(isError, (state: INotificationState, action: PayloadAction<string>) => {
+				state.data.text = action.payload;
+				state.data.type = ENOTIFICATION_TYPE.ERROR;
+				state.isOpen = true;
+			});
+	},
 });
 
 export const { setNotificationInfo, clearNotificationInfo } = notificationSlice.actions;

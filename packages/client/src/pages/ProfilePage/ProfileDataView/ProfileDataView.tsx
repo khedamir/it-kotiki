@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Flex, Typography } from 'antd';
 import styled from 'styled-components';
-import { DEEP_OCEAN } from '../../constants/color';
-import { userSelector } from '../../store/slices/user.slice';
+import { DEEP_OCEAN } from '../../../constants/color';
+import { userSelector } from '../../../store/slices/userSlice/user.slice';
 import { useSelector } from 'react-redux';
 
 const UserDataContainer = styled(Flex)`
