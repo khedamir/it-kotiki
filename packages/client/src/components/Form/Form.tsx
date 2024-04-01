@@ -26,7 +26,10 @@ export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 				const { name, rules, placeholder, type, prefix = null } = FIELD_CONFIG[fieldType];
 				return (
 					<Fragment key={name}>
-						<AForm.Item<Record<EFIELD_TYPE, string>> name={name} rules={rules}>
+						<AForm.Item<Record<EFIELD_TYPE, string>>
+							name={name}
+							rules={rules}
+							validateTrigger={['onSubmit', 'onBlur', 'onFocus']}>
 							{PASSWORD_FIELDS.includes(name) ? (
 								<Input.Password prefix={prefix} placeholder={placeholder} />
 							) : (
