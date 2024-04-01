@@ -35,3 +35,14 @@ export const KEY_MAP: ObjectString = {
 	s: 'ы',
 	d: 'в',
 };
+
+export const IMAGES = {
+	background:' background.png',
+	playerImageRigth: 'Run_right.png',
+	playerImageLeft: 'Run_left.png',
+	enemyRock: 'enemy_rock_run.png',
+	enemyBat: 'bat.png',
+	tower: 'tower.png',
+	home: 'home.png',
+	homeAfter: 'home_after.png',
+};
