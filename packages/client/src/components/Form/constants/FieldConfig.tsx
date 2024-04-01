@@ -128,7 +128,7 @@ export const FIELD_CONFIG: Record<EFIELD_TYPE, IFieldConfig> = {
 		rules: [
 			{
 				required: true,
-				message: 'Введите старый пароль',
+				message: 'Введите новый пароль',
 			},
 			{
 				pattern: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
