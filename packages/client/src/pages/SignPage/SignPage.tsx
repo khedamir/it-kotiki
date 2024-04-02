@@ -11,10 +11,23 @@ import { AUTH_ENDPOINT } from '../../utils/api/consts';
 import { ISigninFormBody, ISignupFormBody } from '../../components/Form/models/models';
 import { setNotificationInfo } from '../../store/slices/notification.slice';
 import { useAppDispatch } from '../../store/store';
+import styled from 'styled-components';
 
 interface IProps {
 	type: TSignPageType;
 }
+
+const SignPageContainer = styled(Flex)`
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 80vh;
+
+	.form-wrapper {
+		width: 330px;
+		margin-top: 34px;
+	}
+`;
 
 export const SignPage: FC<IProps> = ({ type }) => {
 	const CONFIG = SIGN_PAGE_CONFIG[type];
@@ -43,10 +56,12 @@ export const SignPage: FC<IProps> = ({ type }) => {
 	};
 
 	return (
-		<Flex vertical align="center" justify="center">
+		<SignPageContainer>
 			<Typography.Title level={1}>{CONFIG.title}</Typography.Title>
-			<Form type={type} onSubmit={handleAuth} />
+			<div className="form-wrapper">
+				<Form type={type} onSubmit={handleAuth} />
+			</div>
 			<Link to={CONFIG.linkTo}>{CONFIG.textLink}</Link>
-		</Flex>
+		</SignPageContainer>
 	);
 };

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Flex, GetProp, message, Upload, UploadProps } from 'antd';
+import { Avatar, Flex, GetProp, message, Upload, UploadProps } from 'antd';
 import { imgUrl } from '../../../utils/api/consts';
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -49,7 +49,7 @@ export const ProfileAvatar: FC = () => {
 				showUploadList={false}
 				beforeUpload={beforeUpload}
 				onChange={handleChange}>
-				{avatar ? <img src={`${imgUrl}${avatar}`} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+				{avatar ? <Avatar size={100} icon={<UserOutlined />} src={`${imgUrl}${avatar}`} /> : uploadButton}
 			</Upload>
 		</Flex>
 	);
