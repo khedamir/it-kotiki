@@ -53,6 +53,7 @@ export const StartGamePage: FC<StartGamePageProps> = ({ gameStarted, startGame }
 				onClick={startButtonClick}
 				style={{
 					width: 200,
+					border: 'none',
 				}}>
 				СТАРТ
 			</Button>

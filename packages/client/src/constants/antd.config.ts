@@ -1,4 +1,17 @@
-import { COLD_GREY, DEEP_GREEN, DEEP_OCEAN, DEEP_PURPLE, LIGHT_GREY, LIGHT_OCEAN, ORANGE } from './color';
+import {
+	BACKGROUND,
+	COLD_GREY,
+	DEEP_GREEN,
+	DEEP_OCEAN,
+	DEEP_PINK,
+	DEEP_PURPLE,
+	LIGHT_GREY,
+	LIGHT_OCEAN,
+	LIGHT_PINK,
+	ORANGE,
+	PINK,
+	WHITE_TEXT,
+} from './color';
 
 /**
  * https://ant.design/theme-editor#component-color
@@ -7,17 +20,18 @@ export const ANTD_CONFIG = {
 	token: {
 		fontFamily: '"Gill Sans", "Gill Sans MT", sans-serif',
 		fontSize: 16,
-		colorText: COLD_GREY,
-		colorLink: DEEP_PURPLE,
-		colorLinkHover: ORANGE,
+		colorText: WHITE_TEXT,
+		colorLink: LIGHT_GREY,
+		colorLinkHover: LIGHT_PINK,
 		fontSizeHeading1: 30,
 		fontSizeHeading2: 16,
 		linkDecoration: 'underline',
 	},
 	components: {
 		Layout: {
-			bodyBg: `${LIGHT_OCEAN}25`,
-			footerBg: `${LIGHT_OCEAN}25`,
+			bodyBg: `${BACKGROUND}`,
+			footerBg: `${BACKGROUND}`,
+			headerBg: `${BACKGROUND}`,
 		},
 		/**
 		 *
@@ -25,18 +39,16 @@ export const ANTD_CONFIG = {
 		 * TODO стиль для disabled
 		 * */
 		Button: {
-			defaultBorderColor: DEEP_GREEN,
-			defaultBg: DEEP_OCEAN,
-			defaultColor: LIGHT_OCEAN,
-			defaultHoverBg: `${DEEP_OCEAN}50`,
-			defaultHoverBorderColor: `${DEEP_GREEN}50`,
+			defaultBg: DEEP_PINK,
+			defaultColor: WHITE_TEXT,
+			defaultHoverBg: LIGHT_PINK,
 			defaultHoverColor: LIGHT_OCEAN,
 			defaultActiveBg: DEEP_OCEAN,
-			defaultActiveBorderColor: DEEP_PURPLE,
 			defaultActiveColor: LIGHT_OCEAN,
-			borderRadius: 12,
+			borderRadius: 8,
 			fontWeight: 600,
 			paddingInlineLG: 27,
+			border: false,
 		},
 
 		/**
@@ -46,7 +58,7 @@ export const ANTD_CONFIG = {
 		 * TODO стиль для error (и возможно придется делать обертку для ошибки?)
 		 * */
 		Input: {
-			borderRadius: 12,
+			borderRadius: 8,
 			colorBorder: LIGHT_GREY,
 			hoverBorderColor: `${DEEP_PURPLE}70`,
 			activeBorderColor: DEEP_PURPLE,

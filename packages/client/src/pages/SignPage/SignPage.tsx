@@ -30,7 +30,6 @@ const SignPageContainer = styled(Flex)`
 
 	a {
 		text-decoration: none;
-		color: #ff4500;
 	}
 `;
 

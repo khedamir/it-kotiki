@@ -44,6 +44,7 @@ export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 					style={{
 						width: '100%',
 						marginTop: '20px',
+						border: 'none',
 					}}
 					htmlType="submit">
 					{CONFIG.submitBtnText}
