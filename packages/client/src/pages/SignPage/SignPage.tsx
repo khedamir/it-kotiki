@@ -27,6 +27,11 @@ const SignPageContainer = styled(Flex)`
 		width: 330px;
 		margin-top: 34px;
 	}
+
+	a {
+		text-decoration: none;
+		color: #ff4500;
+	}
 `;
 
 export const SignPage: FC<IProps> = ({ type }) => {

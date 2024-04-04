@@ -67,7 +67,7 @@ export const Game = () => {
 				count={killed}
 				type={EMODAL_TYPE.GAME_END}
 				open={isModalOpen}
-				onCancel={() => navigate(EPATH.MAIN)}
+				onCancel={() => navigate(EPATH.LEADER_BOARD)}
 				onOk={restartGame}
 				cancelButtonProps={{ type: 'primary' }}
 				okButtonProps={{ type: 'default' }}

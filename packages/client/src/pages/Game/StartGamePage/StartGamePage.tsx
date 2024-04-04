@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Button, Flex } from 'antd';
 import { Countdown, HintCard, HintCardWrapper, StartGameTitle } from './StartGamePage.style';
 
@@ -19,21 +19,27 @@ interface StartGamePageProps {
 }
 
 export const StartGamePage: FC<StartGamePageProps> = ({ gameStarted, startGame }) => {
-	const TIME_REMAIN = Date.now() + 1.5 * 60000;
-	const [isDisabled, setIsDisabled] = useState(true);
+	const TIME_REMAIN = Date.now() + 1.2 * 3000;
+	const [isDisabled, setIsDisabled] = useState(false);
+	const [gameStarts, setGameStarts] = useState(false);
 
 	useEffect(() => {
-		setIsDisabled(true);
+		setIsDisabled(false);
 	}, [gameStarted]);
 
-	const $countDown = useMemo(() => {
-		return <Countdown format="mm:ss" value={TIME_REMAIN} onFinish={() => setIsDisabled(false)} />;
-	}, []);
+	const startButtonClick = () => {
+		setIsDisabled(true);
+		setGameStarts(true);
+	};
 
 	return (
 		<Flex vertical align="center" justify="center">
-			<StartGameTitle>ИГРА НАЧНЕТСЯ ЧЕРЕЗ:</StartGameTitle>
-			{$countDown}
+			{gameStarts && (
+				<>
+					<StartGameTitle>ИГРА НАЧНЕТСЯ ЧЕРЕЗ:</StartGameTitle>
+					<Countdown format="ss" value={TIME_REMAIN} onFinish={startGame} />
+				</>
+			)}
 			<HintCardWrapper>
 				{CARD_HINT.map(({ id, text }) => (
 					<HintCard key={id} title={`Подсказка #${id}`}>
@@ -44,7 +50,7 @@ export const StartGamePage: FC<StartGamePageProps> = ({ gameStarted, startGame }
 			<Button
 				disabled={isDisabled}
 				size="large"
-				onClick={startGame}
+				onClick={startButtonClick}
 				style={{
 					width: 200,
 				}}>
