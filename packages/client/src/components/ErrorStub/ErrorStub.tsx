@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Flex, Typography, Layout as ALayout, ConfigProvider } from 'antd';
 import { ESTUB_TYPE, STUB_TEXT, STUB_TITLE } from './models/models';
 import styled from 'styled-components';
-import { DEEP_OCEAN, DEEP_PURPLE } from '../../constants/color';
+import { DEEP_PINK } from '../../constants/color';
 import { ANTD_CONFIG } from '../../constants/antd.config';
 const { Text, Title } = Typography;
 
@@ -39,6 +39,7 @@ export const ErrorStub: FC<{
 									replace: true,
 								})
 							}
+							style={{ border: 'none' }}
 							size="large">
 							Вернуться
 						</Button>
@@ -51,11 +52,10 @@ export const ErrorStub: FC<{
 
 export const StubTitle = styled(Title)`
 	margin-bottom: 48px;
-	color: ${DEEP_PURPLE};
+	color: ${DEEP_PINK};
 	letter-spacing: 20px;
 	margin-left: 20px;
-	text-shadow: 4px 4px 4px ${DEEP_OCEAN}50;
 	&.ant-typography {
-		color: ${DEEP_PURPLE};
+		color: ${DEEP_PINK};
 	}
 `;

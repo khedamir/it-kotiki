@@ -61,8 +61,5 @@ export const ANTD_CONFIG = {
 			colorText: COLD_GREY,
 			colorTextPlaceholder: LIGHT_GREY,
 		},
-		Tabs: {
-			activeColor: DEEP_PINK,
-		},
 	},
 };
