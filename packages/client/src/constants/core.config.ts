@@ -37,7 +37,7 @@ export const KEY_MAP: ObjectString = {
 };
 
 export const IMAGES = {
-	background:' background.png',
+	background: ' background.png',
 	playerImageRigth: 'Run_right.png',
 	playerImageLeft: 'Run_left.png',
 	enemyRock: 'enemy_rock_run.png',

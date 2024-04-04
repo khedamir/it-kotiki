@@ -1,5 +1,4 @@
-import {
-	BACKGROUND,
+import { BACKGROUND,
 	COLD_GREY,
 	DEEP_OCEAN,
 	DEEP_PINK,
@@ -7,8 +6,7 @@ import {
 	LIGHT_GREY,
 	LIGHT_OCEAN,
 	LIGHT_PINK,
-	WHITE_TEXT,
-} from './color';
+	WHITE_TEXT } from './color';
 
 /**
  * https://ant.design/theme-editor#component-color

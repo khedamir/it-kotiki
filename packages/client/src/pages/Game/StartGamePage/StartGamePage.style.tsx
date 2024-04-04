@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DEEP_OCEAN, DEEP_PINK, DEEP_PURPLE, LIGHT_PURPLE, ORANGE, WHITE_TEXT } from '../../../constants/color';
+import { DEEP_OCEAN, DEEP_PINK, DEEP_PURPLE, ORANGE, WHITE_TEXT } from '../../../constants/color';
 import { Card, Statistic, Typography } from 'antd';
 import { Modal } from '../../../components/Modal/Modal';
 
