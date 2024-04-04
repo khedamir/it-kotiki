@@ -40,7 +40,14 @@ export const Form: FC = <T,>({ type, onSubmit, initialData }: IProps<T>) => {
 				);
 			})}
 			<AForm.Item style={{ textAlign: 'center' }}>
-				<Button htmlType="submit">{CONFIG.submitBtnText}</Button>
+				<Button
+					style={{
+						width: '100%',
+						marginTop: '20px',
+					}}
+					htmlType="submit">
+					{CONFIG.submitBtnText}
+				</Button>
 			</AForm.Item>
 		</AForm>
 	);
