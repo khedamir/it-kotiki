@@ -7,6 +7,7 @@ import { ANTD_CONFIG } from '../../constants/antd.config';
 import { Notification } from '../Notification/Notification';
 import { useSelector } from 'react-redux';
 import { loaderSelector } from '../../store/slices/loader.slice';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 export const Layout: FC = () => {
 	const { pathname } = useLocation();
@@ -15,17 +16,19 @@ export const Layout: FC = () => {
 
 	return (
 		<ConfigProvider theme={ANTD_CONFIG}>
-			<Notification />
-			<Spin spinning={isLoading} fullscreen />
-			<ALayout style={{ height: '100%' }}>
-				{!isSignPage && <Header />}
-				<ALayout.Content>
-					<Outlet />
-				</ALayout.Content>
-				<ALayout.Footer style={{ textAlign: 'center' }}>
-					&#169;IT-котики {new Date().getFullYear()}
-				</ALayout.Footer>
-			</ALayout>
+			<ErrorBoundary>
+				<Notification />
+				<Spin spinning={isLoading} fullscreen />
+				<ALayout style={{ height: '100%' }}>
+					{!isSignPage && <Header />}
+					<ALayout.Content>
+						<Outlet />
+					</ALayout.Content>
+					<ALayout.Footer style={{ textAlign: 'center' }}>
+						&#169;IT-котики {new Date().getFullYear()}
+					</ALayout.Footer>
+				</ALayout>
+			</ErrorBoundary>
 		</ConfigProvider>
 	);
 };

@@ -51,6 +51,7 @@ export const SignPage: FC<IProps> = ({ type }) => {
 				navigate(fromPage, { replace: true });
 			})
 			.catch(errorReason => {
+				localStorage.setItem('auth', 'false');
 				dispatch(
 					setNotificationInfo({
 						text: errorReason,
