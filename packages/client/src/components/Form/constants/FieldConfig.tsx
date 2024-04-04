@@ -6,74 +6,135 @@ export const FIELD_CONFIG: Record<EFIELD_TYPE, IFieldConfig> = {
 		label: 'Email',
 		name: EFIELD_TYPE.EMAIL,
 		type: 'email',
-		required: true,
-		pattern: '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$',
 		placeholder: 'Email',
-		message: 'Введите email',
+		rules: [
+			{
+				required: true,
+				message: 'Введите адрес электронной почты',
+			},
+			{
+				pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+				message: 'Проверьте правильность ввода электронной почты',
+			},
+		],
 	},
 	[EFIELD_TYPE.LOGIN]: {
 		label: 'Login',
 		name: EFIELD_TYPE.LOGIN,
 		type: 'text',
-		required: true,
-		pattern: '(?=.*[a-z]|[A-Z])[a-zA-Z0-9\\-_]{3,20}',
 		placeholder: 'Логин',
-		message: 'Введите логин',
 		prefix: <UserOutlined className="site-form-item-icon" />,
+		rules: [
+			{
+				required: true,
+				message: 'Введите логин',
+			},
+			{
+				pattern: /^[a-zA-Z0-9_-]{3,20}$/,
+				message: 'Логин должен включать в себя от 3 до 20 символов латиницы или цифр',
+			},
+		],
 	},
 	[EFIELD_TYPE.NAME]: {
 		label: 'Name',
 		name: EFIELD_TYPE.NAME,
 		type: 'text',
-		required: true,
-		pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
 		placeholder: 'Имя',
-		message: 'Введите имя',
+		rules: [
+			{
+				required: true,
+				message: 'Введите имя',
+			},
+			{
+				pattern: /^([А-ЯЁA-Z][а-яёa-z]+-?[А-ЯЁA-Zа-яёa-z]*)$/,
+				message: 'Проверьте правильность ввода, не допускаются цифры и спецсимволы',
+			},
+		],
 	},
 	[EFIELD_TYPE.SURNAME]: {
 		label: 'Surname',
 		name: EFIELD_TYPE.SURNAME,
 		type: 'text',
-		required: true,
-		pattern: '^[A-ZА-Я]+[A-Za-zА-Яа-я\\-]*',
 		placeholder: 'Фамилия',
+		rules: [
+			{
+				required: true,
+				message: 'Введите фамилию',
+			},
+			{
+				pattern: /^([А-ЯЁA-Z][а-яёa-z]+-?[А-ЯЁA-Zа-яёa-z]*)$/,
+				message: 'Проверьте правильность ввода, не допускаются цифры и спецсимволы',
+			},
+		],
 	},
 	[EFIELD_TYPE.PHONE]: {
 		label: 'Phone',
 		name: EFIELD_TYPE.PHONE,
 		type: 'tel',
-		required: true,
-		pattern: '^[\\+]?[0-9]{10,15}',
 		placeholder: 'Телефон',
+		rules: [
+			{
+				required: true,
+				message: 'Введите номер телефона',
+			},
+			{
+				pattern: /^\+?\d{10,15}$/,
+				message: 'Проверьте правильность ввода, телефонный номер должен включать от 10 до 15 цифр',
+			},
+		],
 	},
 	[EFIELD_TYPE.PASSWORD]: {
 		label: 'Password',
 		name: EFIELD_TYPE.PASSWORD,
 		type: 'password',
-		required: true,
-		pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
 		placeholder: 'Пароль',
-		message: 'Введите пароль',
 		prefix: <LockOutlined className="site-form-item-icon" />,
+		rules: [
+			{
+				required: true,
+				message: 'Введите пароль',
+			},
+			{
+				pattern: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
+				message: `Пароль должен включать в себя от 8 до 40 символов латиницы в верхнем и нижнем регистрах 
+				и цифры`,
+			},
+		],
 	},
 	[EFIELD_TYPE.OLD_PASSWORD]: {
 		label: 'Old password',
 		name: EFIELD_TYPE.OLD_PASSWORD,
 		type: 'password',
-		required: false,
-		pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
 		placeholder: 'Старый пароль',
-		message: 'Введите старый пароль',
 		prefix: <LockOutlined className="site-form-item-icon" />,
+		rules: [
+			{
+				required: true,
+				message: 'Введите старый пароль',
+			},
+			{
+				pattern: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
+				message: `Пароль должен включать в себя от 8 до 40 символов латиницы в верхнем и нижнем регистрах
+				и цифры`,
+			},
+		],
 	},
 	[EFIELD_TYPE.NEW_PASSWORD]: {
 		label: 'New password',
 		name: EFIELD_TYPE.NEW_PASSWORD,
 		type: 'password',
-		required: false,
-		pattern: '((?=.*\\d)(?=.*[A-Z]).{8,40})',
 		placeholder: 'Новый пароль',
-		message: 'Введите старый пароль',
 		prefix: <LockOutlined className="site-form-item-icon" />,
+		rules: [
+			{
+				required: true,
+				message: 'Введите новый пароль',
+			},
+			{
+				pattern: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
+				message: `Пароль должен включать в себя от 8 до 40 символов латиницы в верхнем и нижнем регистрах
+				и цифры`,
+			},
+		],
 	},
 };

@@ -1,3 +1,4 @@
+import { Rule } from 'antd/es/form';
 import { ReactNode } from 'react';
 
 export const enum EFORM_TYPE {
@@ -25,11 +26,9 @@ export interface IFieldConfig {
 	label: string;
 	name: EFIELD_TYPE;
 	type: any;
-	required: boolean;
-	pattern: string;
 	placeholder: string;
-	message?: string;
 	prefix?: ReactNode;
+	rules?: Rule[];
 }
 
 export interface IUserInfo {
