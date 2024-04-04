@@ -22,6 +22,7 @@ export const Header: FC = () => {
 			<Flex justify="space-between">
 				<Flex gap="middle" color="white">
 					<Link to={EPATH.MAIN}>Играть</Link>
+					<Link to={EPATH.FORUM}>Форум</Link>
 					<Link to={EPATH.LEADER_BOARD}>
 						<StarOutlined />
 					</Link>
