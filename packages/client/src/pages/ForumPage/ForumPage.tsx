@@ -74,7 +74,7 @@ const ForumPageContent = styled(Flex)`
 
 const ForumPageTitle = styled(Title)`
 	&& {
-		color: ${palette.DEEP_OCEAN};
+		color: ${palette.DEEP_PINK};
 		margin: 44px auto 30px;
 		font-weight: bold;
 	}
@@ -89,6 +89,7 @@ const ForumTopicsContainer = styled(ForumPageContent)`
 
 const ForumButton = styled(Button)`
 	margin: 0 0 66px;
+	border: none;
 `;
 
 export const ForumPage: React.FC = () => (

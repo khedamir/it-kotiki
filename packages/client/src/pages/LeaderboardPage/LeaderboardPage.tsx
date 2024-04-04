@@ -57,7 +57,7 @@ const ContentContainer = styled(PageContent)`
 const PageTitle = styled(Title)`
 	&& {
 		margin: 44px auto 30px;
-		color: ${palette.DEEP_PURPLE};
+		color: ${palette.DEEP_PINK};
 		font-weight: bold;
 	}
 `;

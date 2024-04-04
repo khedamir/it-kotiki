@@ -1,6 +1,6 @@
 import { Flex } from 'antd';
 import styled from 'styled-components';
-import { DEEP_OCEAN } from '../../constants/color';
+import { DEEP_PINK } from '../../constants/color';
 
 export const GameContainer = styled(Flex)`
 	justify-content: center;
@@ -15,7 +15,7 @@ export const Properties = styled(Flex)`
 	gap: 12px;
 	position: absolute;
 	color: #fff;
-	background-color: ${DEEP_OCEAN};
+	background-color: ${DEEP_PINK};
 	padding: 12px 24px;
 	top: 0;
 	width: 100%;

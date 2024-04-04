@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { loadingAvatarSelector, userSelector } from '../../../store/slices/userSlice/user.slice';
 import { useAppDispatch } from '../../../store/store';
 import { changeUserAvatar } from '../../../store/slices/userSlice/user.thunk';
+import { WHITE_TEXT } from '../../../constants/color';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -19,10 +20,13 @@ export const ProfileAvatar: FC = () => {
 	};
 
 	const uploadButton = (
-		<button style={{
-			border: 0,
-			background: 'none',
-		}} type="button">
+		<button
+			style={{
+				border: 0,
+				background: 'none',
+				color: WHITE_TEXT,
+			}}
+			type="button">
 			{isLoading ? <LoadingOutlined /> : <UserOutlined />}
 			<div style={{ marginTop: 8 }}>загрузить</div>
 		</button>

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Flex, Typography } from 'antd';
 import styled from 'styled-components';
-import { DEEP_OCEAN } from '../../../constants/color';
+import { DEEP_OCEAN, WHITE_TEXT } from '../../../constants/color';
 import { userSelector } from '../../../store/slices/userSlice/user.slice';
 import { useSelector } from 'react-redux';
 
@@ -15,10 +15,10 @@ const UserDataItem = styled(Flex)`
 	width: 100%;
 	justify-content: space-between;
 	padding: 8px 0;
-	border-bottom: 2px solid ${DEEP_OCEAN};
+	border-bottom: 2px solid ${WHITE_TEXT};
 
 	* {
-		color: ${DEEP_OCEAN};
+		color: ${WHITE_TEXT};
 	}
 `;
 

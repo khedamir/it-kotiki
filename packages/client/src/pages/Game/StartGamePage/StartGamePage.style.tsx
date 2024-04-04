@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DEEP_OCEAN, DEEP_PURPLE, LIGHT_PURPLE, ORANGE } from '../../../constants/color';
+import { DEEP_OCEAN, DEEP_PINK, DEEP_PURPLE, LIGHT_PURPLE, ORANGE, WHITE_TEXT } from '../../../constants/color';
 import { Card, Statistic, Typography } from 'antd';
 import { Modal } from '../../../components/Modal/Modal';
 
@@ -7,15 +7,14 @@ const { Title } = Typography;
 
 export const StartGameTitle = styled(Title)`
 	&.ant-typography {
-		color: ${DEEP_PURPLE};
+		color: ${WHITE_TEXT};
 		margin: 44px 0 12px;
 	}
 `;
 export const Countdown = styled(Statistic.Countdown)`
 	> .ant-statistic-content {
 		font-size: 46px;
-		color: ${DEEP_PURPLE};
-		text-shadow: 0 4px 4px ${ORANGE};
+		color: ${DEEP_PINK};
 	}
 `;
 
@@ -27,9 +26,9 @@ export const HintCardWrapper = styled.div`
 `;
 
 export const HintCard = styled(Card)`
-	background: ${LIGHT_PURPLE};
-	border: 2px solid ${DEEP_OCEAN};
-	color: ${DEEP_PURPLE};
+	background: #474747;
+	border: none;
+	color: ${WHITE_TEXT};
 	padding: 24px;
 
 	> .ant-card-head {
@@ -37,7 +36,7 @@ export const HintCard = styled(Card)`
 		margin-bottom: 8px;
 		padding: 0;
 		min-height: 28px;
-		color: ${DEEP_PURPLE};
+		color: ${DEEP_PINK};
 	}
 
 	> .ant-card-body {

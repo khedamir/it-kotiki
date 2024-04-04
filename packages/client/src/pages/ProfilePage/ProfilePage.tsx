@@ -11,12 +11,27 @@ import { clearUserData, userSelector } from '../../store/slices/userSlice/user.s
 import { ProfileAvatar } from './ProfileAvatar/ProfileAvatar';
 import { ProfilePasswordForm } from './ProfilePasswordForm/ProfilePasswordForm';
 import { useAppDispatch } from '../../store/store';
+import { DEEP_PINK } from '../../constants/color';
 
 const ProfilePageContent = styled(Flex)`
 	flex-direction: column;
 	align-items: center;
 	width: 476px;
 	margin: 32px auto;
+
+	.ant-tabs-tab {
+		&:hover {
+			color: ${DEEP_PINK} !important;
+		}
+
+		&.ant-tabs-tab-active .ant-tabs-tab-btn {
+			color: ${DEEP_PINK} !important;
+		}
+	}
+
+	.ant-tabs .ant-tabs-ink-bar {
+		background: ${DEEP_PINK} !important;
+	}
 `;
 
 const ProfilePageBottom = styled(Flex)`
@@ -55,7 +70,10 @@ export const ProfilePage = () => {
 			<ProfileAvatar />
 			<Tabs
 				defaultActiveKey="1"
-				style={{ width: '100%' }}
+				style={{
+					width: '100%',
+					color: DEEP_PINK,
+				}}
 				centered
 				size="large"
 				items={[
@@ -77,7 +95,7 @@ export const ProfilePage = () => {
 				]}
 			/>
 			<ProfilePageBottom>
-				<Button onClick={handleLogout} htmlType="button">
+				<Button style={{ border: 'none' }} onClick={handleLogout} htmlType="button">
 					Выйти
 				</Button>
 			</ProfilePageBottom>

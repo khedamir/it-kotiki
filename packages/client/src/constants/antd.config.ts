@@ -1,15 +1,12 @@
 import {
 	BACKGROUND,
 	COLD_GREY,
-	DEEP_GREEN,
 	DEEP_OCEAN,
 	DEEP_PINK,
 	DEEP_PURPLE,
 	LIGHT_GREY,
 	LIGHT_OCEAN,
 	LIGHT_PINK,
-	ORANGE,
-	PINK,
 	WHITE_TEXT,
 } from './color';
 
@@ -65,6 +62,9 @@ export const ANTD_CONFIG = {
 			activeShadow: `0 0 0 2px ${DEEP_PURPLE}30`,
 			colorText: COLD_GREY,
 			colorTextPlaceholder: LIGHT_GREY,
+		},
+		Tabs: {
+			activeColor: DEEP_PINK,
 		},
 	},
 };

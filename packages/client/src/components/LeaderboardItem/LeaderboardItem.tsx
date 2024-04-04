@@ -7,14 +7,14 @@ import { ILeaderboardItem } from './models/models';
 const { Text, Title } = Typography;
 
 const LeaderboardCard = styled(Card)`
-	border: 1px solid ${palette.DEEP_PURPLE};
+	border: 1px solid ${palette.DEEP_PINK};
 	border-radius: 12px;
 `;
 
 const CardTitle = styled(Title)`
 	&& {
 		margin: 0 auto 0 16px;
-		color: ${palette.DEEP_PURPLE};
+		color: ${palette.DEEP_PINK};
 		font-weight: bold;
 	}
 `;
@@ -31,7 +31,7 @@ const CardInfo = styled.div`
 `;
 
 const CardText = styled(Text)`
-	color: ${palette.DEEP_PURPLE};
+	color: ${palette.DEEP_PINK};
 `;
 
 const BoldText = styled(CardText)`
